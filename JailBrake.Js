@@ -17,7 +17,7 @@ let score = 0;
 let ballSpeed_x = 2;
 let ballSpeed_y = 2;
 let ball_x, ball_y;
-let gameZone_width = 1200, gameZone_Height = 1000;
+let gameZone_width = 800, gameZone_Height = 500;
 
 let platform_With = 200;
 let Platform_height = 30;
@@ -32,11 +32,10 @@ let enemyBoxSize_y = gameZone_Height *0.3 / Enemy_numberOfRows;
 
 // platformStyle.addEventListener("onmousedown", RightBut   tonAction);
 
-addEventListener("touchstart", RightButton)
-{
-    RightButtonTimer = setInterval(WhyleHoldingRight, 1);
-}
-
+let jksd = document.getElementsByClassName("menu");
+jksd[0].style.backgroundColor= "blue";
+jksd[1].style.backgroundColor= "blue";
+document.getElementById("RightButton").addEventListener("touchstart", RightButtonAction);
 
 function setPlatformStartingPosition(){
     platformStyle.style.width = platform_With + "px";
