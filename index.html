@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="./JailBrake.css">
+
+
+</head>
+
+<body>
+    
+    <div id="GameBody">
+        <div id="GameOver-menu" class="menu">
+            <div id="GameOver-text">Game Over</div>
+            <div id="GameOver-Score">Your Score</div>
+            <div>
+                <button onclick="StartGame()" class="GameOver-button">Tray again</button>
+                <button class="GameOver-button">Exit</button>
+            </div>
+        </div>
+
+        <div onclick="StartGame()" id="GameStart-menu" class="menu">
+            <div id="GameStart-menu" class="menu">
+                <button class="GameOver-button">Start</button>
+            </div>
+        </div>
+
+        <div id="hood">
+            <div id="score">Score: 0</div>
+            <div id="live-container">
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="GameZone">
+            <div id="EnemyMap"></div>
+            <div id="Platform"></div>
+            <div id="ButtonBox">
+                <button id="LeftButton" onmousedown="LeftButtonAction()" onmouseup="LeftButtonActionMouseUp()" class="Button">Left</button>
+                <button id="RightButton" onmousedown="RightButtonAction()" onmouseup="RightButtonActionMouseUp()" class="Button">Right</button>
+            </div>
+            <div id="Ball"></div>
+        </div>
+        
+        <!-- Js -->
+        <script src="./JailBrake.Js"></script>
+        <script>MapCreation()</script>
+        <script>loadBoxes()</script>
+        <script>BallStartingPosition()</script>
+        <script>setPlatformStartingPosition()</script>
+        <script>setEnemyMap()</script>
+        <!-- <script>StartGame()</script> -->
+    </div>
+
+    
+</body>
+</html>

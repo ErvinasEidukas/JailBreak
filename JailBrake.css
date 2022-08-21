@@ -1,0 +1,199 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* game body */
+#GameBody{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+/* menu */
+.menu{
+    z-index: 10;
+    background-color: lightblue;
+    outline: 5px black solid;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Game Start menu */
+#GameStart-menu{
+    display: flex;
+}
+
+/* GameOver-menu */
+#GameOver-menu{
+    display: none;
+}
+
+#GameOver-text{
+    font-size: 50px;
+    padding: 20px;
+    font-weight: 500;
+}
+
+#GameOver-Score{
+    font-size: 30px;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.GameOver-button{
+    margin: 20px;
+    width: 150px;
+    height: 50px;
+    background-color: orange;
+    border: solid black 5px;
+    color: black;
+    font-weight: 500;
+    font-size: 20px;
+}
+.GameOver-button:hover,
+.GameOver-button:focus{
+    background-color: rgb(167, 109, 3);
+}
+
+/* Hood */
+
+#hood{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#score{
+    border: solid purple 1px;
+    width: 50%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 20px;
+}
+
+#live-container{
+    border: solid blue 1px;
+    width: 50%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* Heart */
+.heart-container{
+    width: 20%;
+}
+
+.heart-shape{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform: rotate(45deg);
+    background-color: gray;
+  }
+
+  .heart-shape:before,
+  .heart-shape:after{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    content: '';
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    background-color: gray;
+  }
+  .heart-shape:before{
+    bottom: 0px;
+    left: -100px;
+  }
+  .heart-shape:after{
+    top: -100px;
+    right: 0px;
+  }
+
+.heart_scale{
+    transform: scale(0.1);
+}
+
+.heart-shape_red,
+.heart-shape_red:before,
+.heart-shape_red:after{
+    background-color: red;
+}
+
+/* Game zone */
+#GameZone{
+    position: relative;
+    border: solid black 5px;
+}
+
+/* Platform */
+#Platform{
+    position: absolute;
+    background-color: gray;
+}
+
+/* Ball */
+#Ball{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: purple;
+    border-radius: 50%;
+}
+
+/* Enemy Map */
+#EnemyMap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Box */
+.Row{
+    display: flex;
+}
+
+.Box{
+    background-color: blue;
+    outline: solid black 2px;
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    visibility: hidden;
+}
+
+.Box_show{
+    visibility: visible;
+}
+
+/* Button */
+
+#ButtonBox{
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.Button{
+    width: 50%;
+    background-color: transparent;
+    border: solid black 2px;
+    height: 100%;
+}
