@@ -22,12 +22,10 @@
             </div>
         </div>
 
-        <div onclick="StartGame()" id="GameStart-menu" class="menu">
-            <div id="GameStart-menu" class="menu">
-                <button class="GameOver-button">Start</button>
-            </div>
+        <div id="GameStart-menu" class="menu">
+            <button onclick="StartGame()" class="GameOver-button">Start</button>
         </div>
-
+        
         <div id="hood">
             <div id="score">Score: 0</div>
             <div id="live-container">
@@ -48,7 +46,7 @@
             <div id="Platform"></div>
             <div id="ButtonBox">
                 <button id="LeftButton" onmousedown="LeftButtonAction()" onkeyup="LeftButtonActionMouseUp()" class="Button">Left</button>
-                <button id="RightButton" class="Button">Right</button>
+                <button id="RightButton" onmousedown="RightButtonAction()" onkeyup="RightButtonActionMouseUp()" class="Button">Right</button>
             </div>
             <div id="Ball"></div>
         </div>
