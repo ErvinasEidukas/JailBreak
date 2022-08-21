@@ -33,9 +33,13 @@ let enemyBoxSize_y = gameZone_Height *0.3 / Enemy_numberOfRows;
 // platformStyle.addEventListener("onmousedown", RightBut   tonAction);
 
 let jksd = document.getElementsByClassName("menu");
-jksd[0].style.backgroundColor= "blue";
-jksd[1].style.backgroundColor= "blue";
+jksd[0].style.backgroundColor= "green";
+jksd[1].style.backgroundColor= "green";
 document.getElementById("RightButton").addEventListener("touchstart", RightButtonAction);
+document.getElementById("RightButton").addEventListener("touchend", RightButtonActionMouseUp);
+
+document.getElementById("LeftButton").addEventListener("touchstart", LeftButtonAction);
+document.getElementById("LeftButton").addEventListener("touchend", LeftButtonActionMouseUp);
 
 function setPlatformStartingPosition(){
     platformStyle.style.width = platform_With + "px";
