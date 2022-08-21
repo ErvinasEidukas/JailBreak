@@ -32,6 +32,11 @@ let enemyBoxSize_y = gameZone_Height *0.3 / Enemy_numberOfRows;
 
 // platformStyle.addEventListener("onmousedown", RightBut   tonAction);
 
+addEventListener("touchstart", RightButton)
+{
+    RightButtonTimer = setInterval(WhyleHoldingRight, 1);
+}
+
 
 function setPlatformStartingPosition(){
     platformStyle.style.width = platform_With + "px";
