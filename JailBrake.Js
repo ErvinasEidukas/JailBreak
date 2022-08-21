@@ -17,7 +17,7 @@ let score = 0;
 let ballSpeed_x = 2;
 let ballSpeed_y = 2;
 let ball_x, ball_y;
-let gameZone_width = 300, gameZone_Height = 300;
+let gameZone_width = 1200, gameZone_Height = 1000;
 
 let platform_With = 200;
 let Platform_height = 30;
