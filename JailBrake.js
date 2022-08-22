@@ -32,7 +32,7 @@ let ball_x, ball_y;
 
 let platform_With = gameZone_width * 0.2;
 let Platform_height = gameZone_Height * 0.03;
-let platform_Speed = 5;
+let platform_Speed = platform_With * 1 / 100;
 let platform_x = gameZone_width / 2 - platform_With / 2;
 let RightButtonTimer;
 let LeftButtonTimer;
