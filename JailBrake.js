@@ -29,6 +29,7 @@ let score = 0;
 let ballSpeed_x = gameZone_width * 0.00125;
 let ballSpeed_y = ballSpeed_x;
 let ball_x, ball_y;
+let ball_size;
 
 let platform_With = gameZone_width * 0.2;
 let Platform_height = gameZone_Height * 0.03;
@@ -41,8 +42,9 @@ let GameLoop;
 
 let enemyBoxSize_x = gameZone_width * 0.9 / Enemy_numberOfColumn;
 let enemyBoxSize_y = gameZone_Height * 0.3 / Enemy_numberOfRows;
-ballStyle.style.width = enemyBoxSize_y * 0.5 + "px";
-ballStyle.style.height = enemyBoxSize_y * 0.5 + "px";
+ballStyle.style.width = enemyBoxSize_y * 1 + "px";
+ballStyle.style.height = enemyBoxSize_y * 1 + "px";
+ball_size = enemyBoxSize_y * 1;
 
 document.getElementById("RightButton").addEventListener("touchstart", RightButtonAction);
 document.getElementById("RightButton").addEventListener("touchend", RightButtonActionMouseUp);
@@ -75,6 +77,7 @@ function WhyleHoldingRight() {
 }
 
 function RightButtonAction() {
+    clearInterval(RightButtonTimer);
     clearInterval(LeftButtonTimer);
     RightButtonTimer = setInterval(WhyleHoldingRight, 1);
 }
@@ -97,6 +100,7 @@ function WhyleHoldingLeft() {
 }
 
 function LeftButtonAction() {
+    clearInterval(LeftButtonTimer);
     clearInterval(RightButtonTimer);
     LeftButtonTimer = setInterval(WhyleHoldingLeft, 1);
 }
@@ -212,7 +216,6 @@ function BallStartingPosition() {
     gameZoneStyle.style.height = gameZone_Height + "px";
     ball_x = gameZone_width / 2;
     ball_y = gameZone_Height - 100;
-    ball_size = 20;
 
     ballStyle.style.top = ball_y + "px";
     ballStyle.style.left = ball_x + "px";
@@ -235,10 +238,9 @@ function moveBall() {
         return;
     }
 
-
     //right Wall || left wall
-    if (ball_x + ball_size >= gameZone_width || ball_x <= 0) {
-        if (ball_x + ball_size >= gameZone_width) {
+    if (ball_x >= gameZone_width - ball_size || ball_x <= 0) {
+        if (ball_x >= gameZone_width - ball_size) {
             ball_x = gameZone_width - ball_size;
         }
         else {
