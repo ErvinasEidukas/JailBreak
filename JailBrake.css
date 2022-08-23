@@ -1,4 +1,7 @@
 body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -161,11 +164,28 @@ body {
 
 .Box {
     background-color: blue;
-    outline: solid black 2px;
+    outline: solid black 5px;
+    /* box-shadow: inset 3px 3px black, inset -3px -3px black; */
     width: 20px;
     height: 20px;
     margin: 0px;
     visibility: hidden;
+}
+
+.Box-Type_green {
+    background-color: green;
+}
+
+.Box-Type_purple {
+    background-color: purple;
+}
+
+.Box-Type_blue {
+    background-color: blue;
+}
+
+.Box-Type_orange {
+    background-color: orange;
 }
 
 .Box_show {
@@ -187,5 +207,8 @@ body {
     width: 50%;
     background-color: transparent;
     height: 100%;
+    border: none;
+}
+.Button:focus {
     border: none;
 }

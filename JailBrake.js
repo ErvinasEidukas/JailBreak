@@ -13,8 +13,13 @@ const AllBoxes = document.getElementsByClassName("Box");
 const RightButton = document.getElementById("RightButton");
 ballStyle.style.backgroundColor = "blue";
 
-const Enemy_numberOfRows = 5;
-const Enemy_numberOfColumn = 12;
+// const pan = new Audio('pan.mp3');
+// pan.volume = 0.01;
+
+
+//Enemy size
+const Enemy_numberOfRows = 8;
+const Enemy_numberOfColumn = 16;
 
 //Dinamik variables
 
@@ -22,14 +27,14 @@ let gameZone_width, gameZone_Height;
 
 //Window size variables
 if (true) {
-    gameZone_width = window.innerWidth * 0.8;
-    gameZone_Height = window.innerHeight * 0.92;
+    gameZone_width = window.innerWidth * 0.9;
+    gameZone_Height = window.innerHeight * 0.90;
     gameZoneStyle.style.width = gameZone_width + "px";
     gameZoneStyle.style.height = gameZone_Height + "px";
 }
 
 //hood variables
-hoodStyle.style.height = 1 / 16 * gameZone_Height + "px";
+hoodStyle.style.height = 5 / 64 * gameZone_Height + "px";
 let score = 0;
 
 //Ball variables
@@ -39,6 +44,7 @@ let ballSpeed_x = StartingBallSpeed;
 let ballSpeed_y = StartingBallSpeed;
 let ball_x, ball_y;
 let ball_size;
+let drag = 0;
 
 //Platform variables
 let platform_With = gameZone_width * 0.2;
@@ -52,18 +58,47 @@ let LeftButtonTimer;
 let GameLoop;
 
 
-let enemyBoxSize_x = gameZone_width * 0.9 / Enemy_numberOfColumn;
+let enemyBoxSize_x = gameZone_width * 0.8 / Enemy_numberOfColumn;
 let enemyBoxSize_y = gameZone_Height * 0.3 / Enemy_numberOfRows;
 ball_size = enemyBoxSize_y * 0.5;
 ballStyle.style.width = ball_size + "px";
 ballStyle.style.height = ball_size + "px";
 
-// Touch variables
+// Touch Control
 document.getElementById("RightButton").addEventListener("touchstart", RightButtonAction);
 document.getElementById("RightButton").addEventListener("touchend", ButtonActionMouseUp);
 
 document.getElementById("LeftButton").addEventListener("touchstart", LeftButtonAction);
 document.getElementById("LeftButton").addEventListener("touchend", ButtonActionMouseUp);
+
+
+//Key bord control KeyDown
+document.addEventListener('keydown', function (e) {
+    switch (e.keyCode) {
+        case 37:
+            // alert('left');
+            LeftButtonAction();
+            break;
+        case 39:
+            // alert('right');
+            RightButtonAction()
+            break;
+    }
+});
+
+//Key bord control KeyUp
+document.addEventListener('keyup', function (e) {
+    switch (e.keyCode) {
+        case 37:
+            // alert('left');
+            ButtonActionMouseUp();
+            break;
+        case 39:
+            // alert('right');
+            ButtonActionMouseUp();
+            break;
+    }
+});
 
 //Function for initiation
 MapCreation();
@@ -71,37 +106,61 @@ MapCreation();
 //OK
 //Event button holding
 //Right Button
-function WhyleHoldingRight() {
+function WhileHoldingRight() {
 
+    //Cheking for Right wall colision
     if (platform_x + platform_Speed > gameZone_width - platform_With) {
         platformStyle.style.left = gameZone_width - platform_With + "px";
         return;
     }
 
+    //Platfor movment
     platform_x += platform_Speed;
     platformStyle.style.left = platform_x + "px";
 }
 
 function RightButtonAction() {
-    ButtonActionMouseUp()
-    RightButtonTimer = setInterval(WhyleHoldingRight, 1);
+    //Reset Button click 
+    ButtonActionMouseUp();
+
+    //Check Ball speed
+    if (ballSpeed_x == 0 && ballSpeed_y == 0) {
+        ballSpeed = StartingBallSpeed;
+        ballSpeed_x = ballSpeed;
+        ballSpeed_y = -ballSpeed;
+    }
+
+    // Start moving platform
+    RightButtonTimer = setInterval(WhileHoldingRight, 1);
 }
 
 //Left Button
-function WhyleHoldingLeft() {
+function WhileHoldingLeft() {
 
+    //Cheking for left wall colision
     if (platform_x - platform_Speed < 0) {
         platformStyle.style.left = "0px";
         return;
     }
 
+    //Platfor movment
     platform_x -= platform_Speed;
     platformStyle.style.left = platform_x + "px";
 }
 
 function LeftButtonAction() {
-    ButtonActionMouseUp()
-    LeftButtonTimer = setInterval(WhyleHoldingLeft, 1);
+    //Reset Button click 
+    ButtonActionMouseUp();
+
+    //Check Ball speed
+    if (ballSpeed_x == 0 && ballSpeed_y == 0) {
+        ballSpeed = StartingBallSpeed;
+        ballSpeed_x = -ballSpeed;
+        ballSpeed_y = -ballSpeed;
+    }
+
+    // Start moving platform
+    LeftButtonTimer = setInterval(WhileHoldingLeft, 1);
 }
 
 //Bouth buttons
@@ -139,6 +198,8 @@ function MapCreation() {
             let newBox = document.createElement("div");
             newBox.classList.add("Box");
             newBox.classList.add("Box_show");
+            newBox.classList.add("Row_" + i);
+            newBox.classList.add("Column_" + j);
             newBox.style.width = enemyBoxSize_x + "px";
             newBox.style.height = enemyBoxSize_y + "px";
             newRow.appendChild(newBox);
@@ -168,7 +229,7 @@ function checkColision(element) {
         elementPosition.right >= ballPosition.left &&
         elementPosition.left <= ballPosition.right) {
 
-
+        //pan.play();
         ballStyle.style.backgroundColor = "red";
 
         //Fals from the left_top
@@ -263,6 +324,7 @@ function checkPlatformColision() {
 //OK
 //Ball Starting position
 function BallStartingPosition() {
+    ballSpeed = 0;
     ballSpeed_x = ballSpeed;
     ballSpeed_y = ballSpeed;
     ball_x = platform_x + platform_With / 2 - ball_size / 2;
@@ -272,10 +334,10 @@ function BallStartingPosition() {
 }
 
 //OK
-//Seting Enemy box position in the midle and with shift
+//Seting Enemy box position shift from left and top
 function setEnemyMap() {
     enemyMap.style.position = "absolute"
-    enemyMap.style.top = ball_size * 3 + "px";
+    enemyMap.style.top = enemyBoxSize_y * 3 + "px";
     enemyMap.style.left = (gameZone_width / 2 - (enemyBoxSize_x * (Enemy_numberOfColumn / 2.0))) + "px";
 }
 
@@ -303,9 +365,8 @@ function WallColision() {
     if (ball_y + ball_size >= gameZone_Height) {
         //Do you have some lives?
         if (lives[0] != null) {
-            BallSpeedReset();
-            BallStartingPosition();
-            lives[0].classList.remove("heart-shape_red")
+            ResetAfterLiveLost();
+            lives[0].classList.remove("heart-shape_red");
             //No
             if (lives[0] == null) {
                 clearInterval(GameLoop);
@@ -320,6 +381,20 @@ function WallColision() {
 //OK
 //Ball movement
 function moveBall() {
+    if (ballSpeed_x == 0) {
+        drag = 0;
+    }
+
+    if (ballSpeed_x != 0) {
+        drag = 0.003;
+    }
+
+    if (ballSpeed == 0 && drag == 0) {
+        return;
+    }
+
+    ballSpeed_y += drag;
+
 
     //Ball movement
     ball_x += ballSpeed_x;
@@ -329,6 +404,11 @@ function moveBall() {
 
     //Platform Colision check
     if (checkPlatformColision()) {
+        drag = 0;
+        ballSpeed_y = ballSpeed_x;
+        if (ballSpeed_y > 0) {
+            ballSpeed_y *= -1;
+        }
         return;
     }
 
@@ -342,15 +422,25 @@ function moveBall() {
             Boxes[i].classList.remove("Box_show");
             score += Math.floor(ballSpeed / StartingBallSpeed * 100);
             scoreStyle.innerHTML = "Score: " + score;
-            BallSpeedIncrease()
+            BallSpeedIncrease();
+            if (Boxes[0] == null) {
+                ResetLvl();
+            }
             break;
         }
     }
 }
 
+// Live lose Reset (but still alive)
+function ResetAfterLiveLost() {
+    ButtonActionMouseUp();
+    BallSpeedReset();
+    BallStartingPosition();
+}
+
 //Ball Speed Increase
 function BallSpeedIncrease() {
-    ballSpeed += StartingBallSpeed / 60;
+    ballSpeed += StartingBallSpeed / 100;
     if (ballSpeed_x > 0) {
         ballSpeed_x = ballSpeed;
     }
@@ -391,17 +481,104 @@ function ResetScore() {
     scoreStyle.innerHTML = "Score: " + 0;
 }
 
-// Start Game Function (main function)
-function StartGame() {
-    //Starting configurations
+//Reset level
+function ResetLvl() {
     ResetEnemyMap();
     setPlatformStartingPosition();
     BallStartingPosition();
     setEnemyMap();
-    ResetLives();
     BallSpeedReset();
+}
+
+//Clear all Enemy boxes
+function ClearAllEnemyBoxes() {
+    while (Boxes[0] != null) {
+        Boxes[0].classList.remove("Box_show");
+    }
+}
+
+// ChangeEnemy type in the row
+function ChangeEnemyTypeInTheRow(row, type) {
+    let tmp = document.getElementsByClassName("Row_" + row);
+
+    for (let i = 0; i < tmp.length; i++) {
+        tmp[i].classList.add("Box_show");
+        tmp[i].classList.add(type);
+    }
+}
+
+// ChangeEnemy type in the column
+function ChangeEnemyTypeInTheColumn(column, type) {
+    let tmp = document.getElementsByClassName("Column_" + column);
+
+    for (let i = 0; i < tmp.length; i++) {
+        tmp[i].classList.add("Box_show");
+        tmp[i].classList.add(type);
+    }
+}
+
+//Not Working
+function ChangeEnemyTypeInSquire(RowStart, RowEnd, ColumnStart, ColumnEnd, Type) {
+
+    let ClassSelector = "Row_" + i + " " + "Column_" + j;
+    let tmp = document.getElementsByClassName(ClassSelector);
+    for (let i = RowStart; i < RowEnd; i++) //column
+    {
+        for (let j = ColumnStart; j < ColumnEnd; j++) //Row
+        {
+            ClassSelector = "Row_" + i + " " + "Column_" + j;
+            tmp = document.getElementsByClassName(ClassSelector);
+            tmp[0].classList.add("Box_show");
+            tmp[0].classList.add(Type);
+        }
+    }
+
+}
+
+function CreatLvl_1() {
+    let AllRows = document.getElementsByClassName("Row")
+    for (let i = 0; i < AllRows.length; i++) {
+        ChangeEnemyTypeInTheRow(i, "Box-Type_green");
+        let selector = i % 4;
+        switch (selector) {
+            case 0:
+                {
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_blue");
+                    break;
+                }
+            case 1:
+                {
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_purple");
+                    break;
+                }
+            case 2:
+                {
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_blue");
+                    break;
+                }
+            case 3:
+                {
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_purple");
+                    break;
+                }
+        }
+    }
+}
+
+function CreatLvl_2() {
+    ChangeEnemyTypeInSquire(0, 8, 0, 5, "Box-Type_purple");
+}
+
+// Start Game Function (main function)
+function StartGame() {
+    //Starting configurations
+    ResetLvl()
+    ResetLives();
     ResetScore();
 
+    //ClearAllEnemyBoxes();
+    CreatLvl_1();
+    //CreatLvl_2();
     document.getElementById("GameOver-menu").style.display = "none";
     document.getElementById("GameStart-menu").style.display = "none";
     GameLoop = setInterval(moveBall, 1);
