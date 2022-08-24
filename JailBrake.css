@@ -1,4 +1,6 @@
 body {
+    -webkit-touch-callout: none;
+    user-select: none;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -13,6 +15,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 8vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
 }
 
 /* menu */
@@ -163,8 +168,9 @@ body {
 }
 
 .Box {
-    background-color: blue;
-    outline: solid black 5px;
+    box-sizing: border-box;
+    background-color: yellow;
+    border: solid black 1px;
     /* box-shadow: inset 3px 3px black, inset -3px -3px black; */
     width: 20px;
     height: 20px;
@@ -172,20 +178,26 @@ body {
     visibility: hidden;
 }
 
-.Box-Type_green {
-    background-color: green;
+/* Regular box style */
+.Box-Type_gray {
+    background-color: gray;
 }
 
-.Box-Type_purple {
-    background-color: purple;
+/* Box with "2 lives" */
+.Box-Type_orange {
+    background-color: orange;
 }
 
 .Box-Type_blue {
     background-color: blue;
 }
 
-.Box-Type_orange {
-    background-color: orange;
+.Box-Type_red {
+    background-color: red;
+}
+
+.Box-Type_lightGrey {
+    background-color: rgb(238, 188, 188);
 }
 
 .Box_show {
