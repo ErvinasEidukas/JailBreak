@@ -13,9 +13,8 @@ const AllBoxes = document.getElementsByClassName("Box");
 const RightButton = document.getElementById("RightButton");
 ballStyle.style.backgroundColor = "blue";
 
-// const pan = new Audio('pan.mp3');
-// pan.volume = 0.01;
-
+//Map level
+let MapLevel = 1;
 
 //Enemy size
 const Enemy_numberOfRows = 8;
@@ -27,8 +26,8 @@ let gameZone_width, gameZone_Height;
 
 //Window size variables
 if (true) {
-    gameZone_width = window.innerWidth * 0.9;
-    gameZone_Height = window.innerHeight * 0.90;
+    gameZone_width = window.innerWidth * 0.8;
+    gameZone_Height = window.innerHeight * 0.8;
     gameZoneStyle.style.width = gameZone_width + "px";
     gameZoneStyle.style.height = gameZone_Height + "px";
 }
@@ -45,6 +44,7 @@ let ballSpeed_y = StartingBallSpeed;
 let ball_x, ball_y;
 let ball_size;
 let drag = 0;
+let puwerUpCounter_forBall = 0;
 
 //Platform variables
 let platform_With = gameZone_width * 0.2;
@@ -57,10 +57,17 @@ let RightButtonTimer;
 let LeftButtonTimer;
 let GameLoop;
 
-
+// Enemy Box Size
 let enemyBoxSize_x = gameZone_width * 0.8 / Enemy_numberOfColumn;
 let enemyBoxSize_y = gameZone_Height * 0.3 / Enemy_numberOfRows;
-ball_size = enemyBoxSize_y * 0.5;
+
+//Ball Size selector
+if (enemyBoxSize_x > enemyBoxSize_y) {
+    ball_size = enemyBoxSize_y * 3 / 4;
+}
+else {
+    ball_size = enemyBoxSize_x * 3 / 4;
+}
 ballStyle.style.width = ball_size + "px";
 ballStyle.style.height = ball_size + "px";
 
@@ -367,35 +374,25 @@ function WallColision() {
         if (lives[0] != null) {
             ResetAfterLiveLost();
             lives[0].classList.remove("heart-shape_red");
-            //No
+            //No lives left
             if (lives[0] == null) {
                 clearInterval(GameLoop);
                 document.getElementById("GameOver-menu").style.display = "flex";
                 document.getElementById("GameOver-Score").innerHTML = "Your Score: " + score;
+                MapLevel = 1;
                 return;
             }
         }
     }
 }
 
+function BlockDestroySelector() {
+
+}
+
 //OK
 //Ball movement
 function moveBall() {
-    if (ballSpeed_x == 0) {
-        drag = 0;
-    }
-
-    if (ballSpeed_x != 0) {
-        drag = 0.003;
-    }
-
-    if (ballSpeed == 0 && drag == 0) {
-        return;
-    }
-
-    ballSpeed_y += drag;
-
-
     //Ball movement
     ball_x += ballSpeed_x;
     ball_y += ballSpeed_y;
@@ -404,11 +401,6 @@ function moveBall() {
 
     //Platform Colision check
     if (checkPlatformColision()) {
-        drag = 0;
-        ballSpeed_y = ballSpeed_x;
-        if (ballSpeed_y > 0) {
-            ballSpeed_y *= -1;
-        }
         return;
     }
 
@@ -419,15 +411,126 @@ function moveBall() {
     for (let i = 0; i < Boxes.length; i++) {
         let found = checkColision(Boxes[i]);
         if (found) {
-            Boxes[i].classList.remove("Box_show");
-            score += Math.floor(ballSpeed / StartingBallSpeed * 100);
-            scoreStyle.innerHTML = "Score: " + score;
-            BallSpeedIncrease();
+
+            //ResetBallSizeCounter (power up)
+            ResetBallSizeCounter();
+
+            //put in a function
+            //Block destroy selector
+
+            // Regular Bloks (Grey)
+            if (Boxes[i].classList.contains("Box-Type_gray")) {
+                score += Math.floor(ballSpeed / StartingBallSpeed * 100);
+                scoreStyle.innerHTML = "Score: " + score;
+                Boxes[i].classList.remove("Box_show");
+                BallSpeedIncrease();
+            }
+
+            // Double tuch bloks (Orange)
+            else if (Boxes[i].classList.contains("Box-Type_orange")) // Orange_box
+            {
+                Boxes[i].classList.remove("Box-Type_orange");
+                Boxes[i].classList.add("Box-Type_gray");
+            }
+
+            //Power Up box(Blue)
+            else if (Boxes[i].classList.contains("Box-Type_blue")) // purple_box
+            {
+                Boxes[i].classList.remove("Box-Type_blue");
+                let doubleBallSize = ball_size * 2;
+                ballStyle.style.width = doubleBallSize + "px";
+                ballStyle.style.height = doubleBallSize + "px";
+                puwerUpCounter_forBall = 5;
+
+                //change
+                score += Math.floor(ballSpeed / StartingBallSpeed * 100);
+                scoreStyle.innerHTML = "Score: " + score;
+                Boxes[i].classList.remove("Box_show");
+                BallSpeedIncrease();
+            }
+
+            // Explosion box (Red)
+            else if (Boxes[i].classList.contains("Box-Type_red")) // red_Box
+            {
+                //Found element;
+                let allRows = document.getElementsByClassName("Row");
+                let BoxRow;
+                let BoxColumn;
+
+                //find row
+                for (let row = 0; row < allRows.length; row++) {
+                    if (Boxes[i].classList.contains("Row_" + row)) {
+                        BoxRow = row;
+                        break;
+                    }
+                }
+
+                //find column
+                let Collumn = document.getElementsByClassName("Row_" + BoxRow);
+                for (let column = 0; column < Collumn.length; column++) {
+                    if (Boxes[i].classList.contains("Column_" + column)) {
+                        BoxColumn = column;
+                        break;
+                    }
+                }
+
+                //Find suraunding elements and Change to white_color
+                for (let j = 0; j < Boxes.length; j++) {
+                    //above explosion row
+                    //current explosion row
+                    //Below explosion row
+
+                    if (Boxes[j].classList.contains("Row_" + (BoxRow - 1)) ||
+                        (Boxes[j].classList.contains("Row_" + BoxRow)) ||
+                        (Boxes[j].classList.contains("Row_" + (BoxRow + 1)))) {
+                        if (Boxes[j].classList.contains("Column_" + (BoxColumn - 1)) ||
+                            Boxes[j].classList.contains("Column_" + BoxColumn) ||
+                            Boxes[j].classList.contains("Column_" + (BoxColumn + 1))) {
+
+                            Boxes[j].classList.add("Box-Type_lightGrey");
+                        }
+                    }
+                }
+                //RemoveAllExlodedBoxes();
+                const explosionTime = setTimeout(RemoveAllExlodedBoxes, 500);
+            }
+
+
+
+            //Game exit point
             if (Boxes[0] == null) {
+                MapLevel();
                 ResetLvl();
             }
             break;
         }
+    }
+}
+
+//Removes all "Special" Types of box
+function RemuveAllEnemyClasses(element) {
+    element.classList.remove("Box_show");
+    element.classList.remove("Box-Type_gray");
+    element.classList.remove("Box-Type_orange");
+    element.classList.remove("Box-Type_blue");
+    element.classList.remove("Box-Type_red");
+    element.classList.remove("Box-Type_lightGrey");
+    element.classList.remove("Box-Type_lightGrey");
+}
+
+//Remuves all exploted boxes
+function RemoveAllExlodedBoxes() {
+    let allExplodedElements = document.getElementsByClassName("Box-Type_lightGrey");
+    while (allExplodedElements[0] != null) {
+        RemuveAllEnemyClasses(allExplodedElements[0]);
+        // adding score
+        score += Math.floor(ballSpeed / StartingBallSpeed * 100);
+        scoreStyle.innerHTML = "Score: " + score;
+    }
+    //Game Exit point
+    if (Boxes[0] == null) {
+        MapLevel++;
+        ResetLvl();
     }
 }
 
@@ -436,6 +539,7 @@ function ResetAfterLiveLost() {
     ButtonActionMouseUp();
     BallSpeedReset();
     BallStartingPosition();
+    ResetBallSize();
 }
 
 //Ball Speed Increase
@@ -453,6 +557,25 @@ function BallSpeedIncrease() {
     }
     else {
         ballSpeed_y = -ballSpeed;
+    }
+}
+
+//Reset ball size after puwer up
+function ResetBallSize() {
+    ballStyle.style.width = ball_size + "px";
+    ballStyle.style.height = ball_size + "px";
+    puwerUpCounter_forBall = 0;
+}
+
+//Ball size power up Counter
+function ResetBallSizeCounter() {
+    //Ball size counter (power up counter)
+    if (puwerUpCounter_forBall > 0) {
+        puwerUpCounter_forBall--;
+        if (puwerUpCounter_forBall <= 0) {
+            //Reset ball size;
+            ResetBallSize();
+        }
     }
 }
 
@@ -481,19 +604,33 @@ function ResetScore() {
     scoreStyle.innerHTML = "Score: " + 0;
 }
 
-//Reset level
+//Reset level // and loud the next level
 function ResetLvl() {
+    ResetBallSize();
     ResetEnemyMap();
-    setPlatformStartingPosition();
-    BallStartingPosition();
     setEnemyMap();
     BallSpeedReset();
+    for (let i = 0; i < AllBoxes.length; i++) {
+        RemuveAllEnemyClasses(AllBoxes[i]);
+    }
+    LouadMap();
+    BallStartingPosition();
+    setPlatformStartingPosition();
 }
 
 //Clear all Enemy boxes
 function ClearAllEnemyBoxes() {
     while (Boxes[0] != null) {
         Boxes[0].classList.remove("Box_show");
+    }
+}
+
+//Remove Row (gap)
+function RemoveEnemyRow(row) {
+    let tmp = document.getElementsByClassName("Row_" + row);
+
+    for (let i = 0; i < tmp.length; i++) {
+        tmp[i].classList.remove("Box_show");
     }
 }
 
@@ -535,52 +672,82 @@ function ChangeEnemyTypeInSquire(RowStart, RowEnd, ColumnStart, ColumnEnd, Type)
 
 }
 
+// LVL 1
 function CreatLvl_1() {
     let AllRows = document.getElementsByClassName("Row")
     for (let i = 0; i < AllRows.length; i++) {
-        ChangeEnemyTypeInTheRow(i, "Box-Type_green");
-        let selector = i % 4;
+        let selector = i % 16;
         switch (selector) {
             case 0:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_blue");
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_red");
                     break;
                 }
             case 1:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_purple");
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_red");
                     break;
                 }
             case 2:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_blue");
+                    RemoveEnemyRow(i);
                     break;
                 }
             case 3:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_purple");
+                    RemoveEnemyRow(i);
+                    break;
+                }
+            default:
+                {
+                    RemoveEnemyRow(i);
                     break;
                 }
         }
     }
 }
 
+// LVL 2
 function CreatLvl_2() {
-    ChangeEnemyTypeInSquire(0, 8, 0, 5, "Box-Type_purple");
+    let AllRows = document.getElementsByClassName("Row")
+    for (let i = 0; i < AllRows.length; i++) {
+        ChangeEnemyTypeInTheRow(i, "Box-Type_gray");
+    }
+}
+
+//Map selector
+function LouadMap() {
+    switch (MapLevel) {
+        case 1:
+            {
+                CreatLvl_1();
+                break;
+            }
+        case 2:
+            {
+                CreatLvl_2();
+                break;
+            }
+        default:
+            {
+                CreatLvl_1();
+                break;
+            }
+    }
 }
 
 // Start Game Function (main function)
 function StartGame() {
     //Starting configurations
-    ResetLvl()
+    ResetLvl();
     ResetLives();
     ResetScore();
 
-    //ClearAllEnemyBoxes();
-    CreatLvl_1();
-    //CreatLvl_2();
+    //making invisable menu bar
     document.getElementById("GameOver-menu").style.display = "none";
     document.getElementById("GameStart-menu").style.display = "none";
+
+    // Starting game loop
     GameLoop = setInterval(moveBall, 1);
 }
 
