@@ -167,7 +167,7 @@ function LeftButtonAction() {
     }
 
     // Start moving platform
-    LeftButtonTimer = setInterval(WhileHoldingLeft, 1);
+    LeftButtonTimer = setInterval(WhileHoldingLeft, 0);
 }
 
 //Bouth buttons
