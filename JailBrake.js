@@ -27,7 +27,7 @@ let gameZone_width, gameZone_Height;
 //Window size variables
 if (true) {
     gameZone_width = window.innerWidth * 0.8;
-    gameZone_Height = window.innerHeight * 0.8;
+    gameZone_Height = window.innerHeight * 0.75;
     gameZoneStyle.style.width = gameZone_width + "px";
     gameZoneStyle.style.height = gameZone_Height + "px";
 }
@@ -37,7 +37,7 @@ hoodStyle.style.height = 5 / 64 * gameZone_Height + "px";
 let score = 0;
 
 //Ball variables
-const StartingBallSpeed = gameZone_width * 0.00125;
+const StartingBallSpeed = gameZone_width * 0.00125 * 0.5;
 let ballSpeed = StartingBallSpeed;
 let ballSpeed_x = StartingBallSpeed;
 let ballSpeed_y = StartingBallSpeed;
@@ -47,10 +47,11 @@ let drag = 0;
 let puwerUpCounter_forBall = 0;
 
 //Platform variables
-let platform_With = gameZone_width * 0.2;
+let platform_With = gameZone_width * 0.1;
 let Platform_height = gameZone_Height * 0.03;
-let platform_Speed = platform_With * 3 / 200;
+let platform_Speed = platform_With * 1 / 60;
 let platform_x = gameZone_width / 2 - platform_With / 2;
+let deflect = 0;
 
 //Timers
 let RightButtonTimer;
@@ -301,14 +302,23 @@ function checkPlatformColision() {
 
         ballStyle.style.backgroundColor = "blue";
 
+        // deflect = Math.PI / 2 * ((ballPosition.left + ball_size / 2 - elementPosition.left) - (platform_With / 2)) / (platform_With / 2);
+        // console.debug(deflect, " ", Math.sin(deflect), " ", Math.cos(deflect));
+        // ballSpeed_y *= Math.sin(deflect);
+        // ballSpeed_x *= Math.cos(deflect);
+
         //Fals from the left_top
         if (ballSpeed_x > 0 && ballSpeed_y > 0) {
             if (ballPosition.right < elementPosition.left + ballSpeed_y) {
                 ballSpeed_x *= -1;
             }
             else {
-                ballSpeed_y *= -1;
-
+                if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
+                    ballSpeed_y *= -1;
+                    ballSpeed_x *= -1;
+                } else {
+                    ballSpeed_y *= -1;
+                }
             }
         }
         //Fals from the right_top
@@ -317,8 +327,16 @@ function checkPlatformColision() {
                 ballSpeed_x *= -1;
             }
             else {
-                ballSpeed_y *= -1;
-
+                //deflect = (3.14 / 4 * (platform_With / 2 - (platform_x - ballPosition.left + ball_size / 2)) / platform_With / 2);
+                // console.debug(deflect);
+                if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
+                    ballSpeed_y *= - 1;
+                    //deflect = 0;
+                } else {
+                    ballSpeed_y *= -1;
+                    ballSpeed_x *= -1;
+                    //deflect = 0;
+                }
             }
         }
         return true;
@@ -517,7 +535,6 @@ function RemuveAllEnemyClasses(element) {
     element.classList.remove("Box-Type_lightGrey");
     element.classList.remove("Box-Type_lightGrey");
 }
-
 //Remuves all exploted boxes
 function RemoveAllExlodedBoxes() {
     let allExplodedElements = document.getElementsByClassName("Box-Type_lightGrey");
