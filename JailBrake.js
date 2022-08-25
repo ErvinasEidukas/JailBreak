@@ -1,4 +1,4 @@
-//Constant variables
+//Constant variablesballSpeed
 
 const hoodStyle = document.getElementById("hood");
 const livesStyle = document.getElementsByClassName("heart-shape");
@@ -11,7 +11,7 @@ const enemyMap = document.getElementById("EnemyMap");
 const Boxes = document.getElementsByClassName("Box_show");
 const AllBoxes = document.getElementsByClassName("Box");
 const RightButton = document.getElementById("RightButton");
-ballStyle.style.backgroundColor = "blue";
+ballStyle.style.backgroundColor = "red";
 
 //Map level
 let MapLevel = 1;
@@ -37,7 +37,7 @@ hoodStyle.style.height = 5 / 64 * gameZone_Height + "px";
 let score = 0;
 
 //Ball variables
-const StartingBallSpeed = gameZone_width * 0.00125 * 0.5;
+const StartingBallSpeed = gameZone_width * 0.001;
 let ballSpeed = StartingBallSpeed;
 let ballSpeed_x = StartingBallSpeed;
 let ballSpeed_y = StartingBallSpeed;
@@ -64,10 +64,10 @@ let enemyBoxSize_y = gameZone_Height * 0.3 / Enemy_numberOfRows;
 
 //Ball Size selector
 if (enemyBoxSize_x > enemyBoxSize_y) {
-    ball_size = enemyBoxSize_y * 3 / 4;
+    ball_size = enemyBoxSize_y * 1;
 }
 else {
-    ball_size = enemyBoxSize_x * 3 / 4;
+    ball_size = enemyBoxSize_x * 1;
 }
 ballStyle.style.width = ball_size + "px";
 ballStyle.style.height = ball_size + "px";
@@ -111,7 +111,6 @@ document.addEventListener('keyup', function (e) {
 //Function for initiation
 MapCreation();
 
-//OK
 //Event button holding
 //Right Button
 function WhileHoldingRight() {
@@ -178,7 +177,6 @@ function ButtonActionMouseUp() {
 }
 //Button Events End
 
-//OK
 //Platform Starting position
 function setPlatformStartingPosition() {
     platform_x = gameZone_width / 2 - platform_With / 2;
@@ -188,13 +186,11 @@ function setPlatformStartingPosition() {
     platformStyle.style.bottom = 0 + "px";
 }
 
-//OK
 // Window close function For browser
 function WindowClose() {
     window.close();
 }
 
-//OK
 //Map - Enemy block creation
 function MapCreation() {
     for (let i = 0; i < Enemy_numberOfRows; i++) {
@@ -215,7 +211,6 @@ function MapCreation() {
     }
 }
 
-//OK
 //Box creation
 function CreatNewBox(element) {
     let newBox = document.createElement("div");
@@ -224,7 +219,6 @@ function CreatNewBox(element) {
     element.appendChild(newBox);
 }
 
-//OK
 //Chek colision
 //Black magick part (core of the game)
 function checkColision(element) {
@@ -237,8 +231,7 @@ function checkColision(element) {
         elementPosition.right >= ballPosition.left &&
         elementPosition.left <= ballPosition.right) {
 
-        //pan.play();
-        ballStyle.style.backgroundColor = "red";
+        // ballStyle.style.backgroundColor = "red";
 
         //Fals from the left_top
         if (ballSpeed_x > 0 && ballSpeed_y > 0) {
@@ -287,7 +280,6 @@ function checkColision(element) {
     }
 }
 
-//OK
 //Platform Colision
 function checkPlatformColision() {
     let elementPosition = platformStyle.getBoundingClientRect();
@@ -300,7 +292,7 @@ function checkPlatformColision() {
         elementPosition.left <= ballPosition.right) {
 
 
-        ballStyle.style.backgroundColor = "blue";
+        // ballStyle.style.backgroundColor = "blue";
 
         // deflect = Math.PI / 2 * ((ballPosition.left + ball_size / 2 - elementPosition.left) - (platform_With / 2)) / (platform_With / 2);
         // console.debug(deflect, " ", Math.sin(deflect), " ", Math.cos(deflect));
@@ -313,12 +305,13 @@ function checkPlatformColision() {
                 ballSpeed_x *= -1;
             }
             else {
-                if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
-                    ballSpeed_y *= -1;
-                    ballSpeed_x *= -1;
-                } else {
-                    ballSpeed_y *= -1;
-                }
+                ballSpeed_y *= -1;
+                // if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
+                //     ballSpeed_y *= -1;
+                //     ballSpeed_x *= -1;
+                // } else {
+                //     ballSpeed_y *= -1;
+                // }
             }
         }
         //Fals from the right_top
@@ -327,16 +320,17 @@ function checkPlatformColision() {
                 ballSpeed_x *= -1;
             }
             else {
+                ballSpeed_y *= -1;
                 //deflect = (3.14 / 4 * (platform_With / 2 - (platform_x - ballPosition.left + ball_size / 2)) / platform_With / 2);
                 // console.debug(deflect);
-                if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
-                    ballSpeed_y *= - 1;
-                    //deflect = 0;
-                } else {
-                    ballSpeed_y *= -1;
-                    ballSpeed_x *= -1;
-                    //deflect = 0;
-                }
+                // if (ballPosition.right - ball_size / 2 < elementPosition.right - platform_With / 2) {
+                //     ballSpeed_y *= - 1;
+                //     //deflect = 0;
+                // } else {
+                //     ballSpeed_y *= -1;
+                //     ballSpeed_x *= -1;
+                //     //deflect = 0;
+                // }
             }
         }
         return true;
@@ -346,7 +340,6 @@ function checkPlatformColision() {
     }
 }
 
-//OK
 //Ball Starting position
 function BallStartingPosition() {
     ballSpeed = 0;
@@ -358,7 +351,6 @@ function BallStartingPosition() {
     ballStyle.style.left = ball_x + "px";
 }
 
-//OK
 //Seting Enemy box position shift from left and top
 function setEnemyMap() {
     enemyMap.style.position = "absolute"
@@ -366,7 +358,6 @@ function setEnemyMap() {
     enemyMap.style.left = (gameZone_width / 2 - (enemyBoxSize_x * (Enemy_numberOfColumn / 2.0))) + "px";
 }
 
-//OK
 //Wall Colision
 function WallColision() {
     //right Wall || left wall
@@ -388,6 +379,10 @@ function WallColision() {
 
     //bottom wall
     if (ball_y + ball_size >= gameZone_Height) {
+        // outoplay
+        // ballSpeed_y *= -1;
+        // return;
+
         //Do you have some lives?
         if (lives[0] != null) {
             ResetAfterLiveLost();
@@ -404,11 +399,6 @@ function WallColision() {
     }
 }
 
-function BlockDestroySelector() {
-
-}
-
-//OK
 //Ball movement
 function moveBall() {
     //Ball movement
@@ -433,9 +423,7 @@ function moveBall() {
             //ResetBallSizeCounter (power up)
             ResetBallSizeCounter();
 
-            //put in a function
             //Block destroy selector
-
             // Regular Bloks (Grey)
             if (Boxes[i].classList.contains("Box-Type_gray")) {
                 score += Math.floor(ballSpeed / StartingBallSpeed * 100);
@@ -517,7 +505,7 @@ function moveBall() {
 
             //Game exit point
             if (Boxes[0] == null) {
-                MapLevel();
+                MapLevel++;
                 ResetLvl();
             }
             break;
@@ -631,8 +619,8 @@ function ResetLvl() {
         RemuveAllEnemyClasses(AllBoxes[i]);
     }
     LouadMap();
-    BallStartingPosition();
     setPlatformStartingPosition();
+    BallStartingPosition();
 }
 
 //Clear all Enemy boxes
@@ -661,6 +649,16 @@ function ChangeEnemyTypeInTheRow(row, type) {
     }
 }
 
+// ChangeEnemy type in the row partially
+function ChangeEnemyTypeInTheRow_partially(row, type, start, end) {
+    let tmp = document.getElementsByClassName("Row_" + row);
+
+    for (let i = start; i <= end; i++) {
+        tmp[i].classList.add("Box_show");
+        tmp[i].classList.add(type);
+    }
+}
+
 // ChangeEnemy type in the column
 function ChangeEnemyTypeInTheColumn(column, type) {
     let tmp = document.getElementsByClassName("Column_" + column);
@@ -671,48 +669,161 @@ function ChangeEnemyTypeInTheColumn(column, type) {
     }
 }
 
-//Not Working
-function ChangeEnemyTypeInSquire(RowStart, RowEnd, ColumnStart, ColumnEnd, Type) {
-
-    let ClassSelector = "Row_" + i + " " + "Column_" + j;
-    let tmp = document.getElementsByClassName(ClassSelector);
-    for (let i = RowStart; i < RowEnd; i++) //column
-    {
-        for (let j = ColumnStart; j < ColumnEnd; j++) //Row
-        {
-            ClassSelector = "Row_" + i + " " + "Column_" + j;
-            tmp = document.getElementsByClassName(ClassSelector);
-            tmp[0].classList.add("Box_show");
-            tmp[0].classList.add(Type);
-        }
-    }
-
-}
-
 // LVL 1
 function CreatLvl_1() {
     let AllRows = document.getElementsByClassName("Row")
+
+    //columns    
+    ChangeEnemyTypeInTheColumn(0, "Box-Type_gray");
+    ChangeEnemyTypeInTheColumn(15, "Box-Type_gray");
+    //Rows
     for (let i = 0; i < AllRows.length; i++) {
-        let selector = i % 16;
+        let selector = i % 8;
         switch (selector) {
             case 0:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_red");
+                    // Row_0
+                    ChangeEnemyTypeInTheRow(i, "Box-Type_gray");
                     break;
                 }
             case 1:
                 {
-                    ChangeEnemyTypeInTheRow(i, "Box-Type_red");
+                    // Row_2
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 14);
                     break;
                 }
             case 2:
                 {
-                    RemoveEnemyRow(i);
+                    // Row_3
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 14);
                     break;
                 }
             case 3:
                 {
+                    // Row_3
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 7, 8);
+                    break;
+                }
+            case 4:
+                {
+                    // Row_4
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 7, 8);
+                    break;
+                }
+            case 5:
+                {
+                    // Row_5
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 10, 14);
+                    break;
+                }
+            case 6:
+                {
+                    // Row_6
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 10, 10);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 11, 14);
+                    break;
+                }
+            case 7:
+                {
+                    // Row_7
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_orange", 1, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 10);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_orange", 11, 14);
+                    break;
+                }
+            default:
+                {
                     RemoveEnemyRow(i);
+                    break;
+                }
+
+        }
+    }
+}
+
+// LVL 2
+function CreatLvl_2() {
+    let AllRows = document.getElementsByClassName("Row")
+
+    //Rows
+    for (let i = 0; i < AllRows.length; i++) {
+        let selector = i % 8;
+        switch (selector) {
+            case 0:
+                {
+                    // Row_0
+                    ChangeEnemyTypeInTheRow(0, "Box-Type_orange");
+                    break;
+                }
+            case 1:
+                {
+                    // Row_2
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 2, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 10, 13);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 2:
+                {
+                    // Row_3
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 3:
+                {
+                    // Row_3
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 3, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 11, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 4:
+                {
+                    // Row_4
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 3, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 11, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 5:
+                {
+                    // Row_5
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 6:
+                {
+                    // Row_6
+                    RemoveEnemyRow(i);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 2, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 6, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 10, 13);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 14, 14);
+                    break;
+                }
+            case 7:
+                {
+                    // Row_7
+                    ChangeEnemyTypeInTheRow(7, "Box-Type_orange");
                     break;
                 }
             default:
@@ -722,13 +833,106 @@ function CreatLvl_1() {
                 }
         }
     }
+    //columns    
+    ChangeEnemyTypeInTheColumn(0, "Box-Type_orange");
+    ChangeEnemyTypeInTheColumn(15, "Box-Type_orange");
 }
 
-// LVL 2
-function CreatLvl_2() {
+// LVL 3
+function CreatLvl_3() {
     let AllRows = document.getElementsByClassName("Row")
+
+    //columns    
+    ChangeEnemyTypeInTheColumn(8, "Box-Type_red");
+    ChangeEnemyTypeInTheColumn(11, "Box-Type_red");
+    //Rows
     for (let i = 0; i < AllRows.length; i++) {
-        ChangeEnemyTypeInTheRow(i, "Box-Type_gray");
+        let selector = i % 8;
+        switch (selector) {
+            case 0:
+                {
+                    // Row_0
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 0, 2);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 7);
+                    break;
+                }
+            case 1:
+                {
+                    // Row_2
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 13);
+                    break;
+                }
+            case 2:
+                {
+                    // Row_3
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 2);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 4, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 9, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 14, 14);
+                    break;
+                }
+            case 3:
+                {
+                    // Row_3
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 2);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 4, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 6);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 9, 9);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 14, 14);
+                    break;
+                }
+            case 4:
+                {
+                    // Row_4
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 10, 10);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 14, 14);
+                    break;
+                }
+            case 5:
+                {
+                    // Row_5
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 1, 1);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 5);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_red", 10, 10);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 14, 14);
+                    break;
+                }
+            case 6:
+                {
+                    // Row_6
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 2);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 4, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 5, 7);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 12);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 14, 14);
+                    break;
+                }
+            case 7:
+                {
+                    // Row_7
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 2, 2);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_blue", 4, 4);
+                    ChangeEnemyTypeInTheRow_partially(i, "Box-Type_gray", 12, 13);
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
     }
 }
 
@@ -745,8 +949,14 @@ function LouadMap() {
                 CreatLvl_2();
                 break;
             }
+        case 3:
+            {
+                CreatLvl_3();
+                break;
+            }
         default:
             {
+                MapLevel = 1;
                 CreatLvl_1();
                 break;
             }
