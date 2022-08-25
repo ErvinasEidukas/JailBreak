@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jail Brake game</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="./JailBreak.css">
+
+
+</head>
+
+<body>
+
+    <!-- Platform control buttons -->
+    <div id="ButtonBox">
+        <!-- Left button -->
+        <button id="LeftButton" onmousedown="LeftButtonAction()" onmouseup="ButtonActionMouseUp()" class="Button"></button>
+        <!-- Right Button -->
+        <button id="RightButton" onmousedown="RightButtonAction()" onmouseup="ButtonActionMouseUp()" class="Button"></button>
+    </div>
+
+    <!-- Game container -->
+    <div id="GameBody">
+
+        <!-- Start game menu -->
+        <div id="GameStart-menu" class="menu">
+            <button onclick="StartGame()" class="GameOver-button">Start</button>
+        </div>
+
+        <!-- Game over Menu -->
+        <div id="GameOver-menu" class="menu">
+            <div id="GameOver-text">Game Over</div>
+            <div id="GameOver-Score">Your Score</div>
+            <div>
+                <button onclick="StartGame()" class="GameOver-button">Try again</button>
+                <!-- <button onclick="window.location='exit.html'" class="GameOver-button">Exit</button> // for android -->
+                <button onclick="WindowClose()" class="GameOver-button">Exit</button>
+            </div>
+        </div>
+
+        <!-- Hood on the top-->
+        <div id="hood">
+            <div id="score">Score: 0</div>
+            <div id="live-container">
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+                <div class="heart-container heart_scale">
+                    <div class="heart-shape heart-shape_red"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Playing erea -->
+        <div id="GameZone">
+            <div id="EnemyMap"></div>
+            <div id="Platform"></div>
+            <div id="Ball"></div>
+        </div>
+
+
+        <!-- Js -->
+        <script src="./JailBreak.js"></script>
+    </div>
+
+
+</body>
+
+</html>

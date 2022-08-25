@@ -1,0 +1,226 @@
+body {
+    -webkit-touch-callout: none;
+    user-select: none;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* game body */
+#GameBody {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+/* menu */
+.menu {
+    z-index: 10;
+    background-color: lightblue;
+    outline: 5px black solid;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Game Start menu */
+#GameStart-menu {
+    display: flex;
+}
+
+/* GameOver-menu */
+#GameOver-menu {
+    display: none;
+}
+
+#GameOver-text {
+    font-size: 50px;
+    padding: 20px;
+    font-weight: 500;
+}
+
+#GameOver-Score {
+    font-size: 30px;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.GameOver-button {
+    margin: 20px;
+    width: 150px;
+    height: 50px;
+    background-color: orange;
+    border: solid black 5px;
+    color: black;
+    font-weight: 500;
+    font-size: 20px;
+}
+.GameOver-button:hover,
+.GameOver-button:focus {
+    background-color: rgb(167, 109, 3);
+}
+
+/* Hood */
+
+#hood {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#score {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    line-height: 100%;
+    font-size: 6vh;
+}
+
+#live-container {
+    width: 50%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* Heart */
+.heart-container {
+    width: 20%;
+}
+
+.heart-shape {
+    position: relative;
+    width: 2vw;
+    height: 2vw;
+    transform: rotate(45deg);
+    background-color: gray;
+}
+
+.heart-shape:before,
+.heart-shape:after {
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    content: '';
+    border-radius: 50%;
+    background-color: gray;
+}
+.heart-shape:before {
+    bottom: 0px;
+    left: -1vw;
+}
+.heart-shape:after {
+    top: -1vw;
+    right: 0px;
+}
+
+.heart_scale {
+    transform: scale(0.8);
+}
+
+.heart-shape_red,
+.heart-shape_red:before,
+.heart-shape_red:after {
+    background-color: red;
+}
+
+/* Game zone */
+#GameZone {
+    position: relative;
+    border: solid black 5px;
+}
+
+/* Platform */
+#Platform {
+    position: absolute;
+    background-color: gray;
+}
+
+/* Ball */
+#Ball {
+    position: absolute;
+    background-color: purple;
+    border-radius: 50%;
+}
+
+/* Enemy Map */
+#EnemyMap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Box */
+.Row {
+    display: flex;
+}
+
+.Box {
+    box-sizing: border-box;
+    background-color: yellow;
+    border: solid black 1px;
+    /* box-shadow: inset 3px 3px black, inset -3px -3px black; */
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    visibility: hidden;
+}
+
+/* Regular box style */
+.Box-Type_gray {
+    background-color: gray;
+}
+
+/* Box with "2 lives" */
+.Box-Type_orange {
+    background-color: orange;
+}
+
+.Box-Type_blue {
+    background-color: blue;
+}
+
+.Box-Type_red {
+    background-color: red;
+}
+
+.Box-Type_lightGrey {
+    background-color: rgb(238, 188, 188);
+}
+
+.Box_show {
+    visibility: visible;
+}
+
+/* Button */
+
+#ButtonBox {
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.Button {
+    width: 50%;
+    background-color: transparent;
+    height: 100%;
+    border: none;
+}
+.Button:focus {
+    border: none;
+}
