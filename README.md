@@ -6,7 +6,7 @@ Latest update: 2022-08-26
 Project accessibility:
 
     1.  You can play the game in your browser by going through this link:
-        https://ervinaseidukas.github.io/JailBrake/
+        https://ervinaseidukas.github.io/JailBreak/
 
     2.  You can download files listed below and run it locally on your pc:
         "JailBreak.css"
